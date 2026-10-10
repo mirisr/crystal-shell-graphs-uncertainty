@@ -1,0 +1,5 @@
+display_method,source,feature_mode,method,selected_on_ispy2,coverage90,width90_ml,interval_score,mae_ml,bias_ml
+Locally scaled conformal (selected on I-SPY2 OOF),method_sweep,paper_full,extra_trees_scaled_residual_conformal,True,0.9356435643564356,19.035978698747066,22.225563281673576,3.3229625926747537,0.8543226922894787
+ExtraTrees CQR (I-SPY2 OOF runner-up),method_sweep,paper_full,extra_trees_quantile_cqr,False,0.915841584158416,18.338351745314096,20.63447358140788,3.218004752498429,-0.7093237166561159
+Baseline-FTV stratified residual MC,residual_sampler,,baseline_ftv_stratified,False,0.9405940594059404,20.141790969625823,23.177199021980577,3.1471163805307953,0.2998050058552177
+Primary bucket residual MC,paper_mc_parquet,,bucket_residual_mc,False,0.9207920792079208,17.29651390840506,28.236249921910513,3.3234304134985546,0.8534264488072222

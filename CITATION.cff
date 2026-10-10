@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this research code, please cite this repository and the associated manuscript."
+title: "Crystal-Shell Tumor Graph Forecasting with Patient-Conditioned Uncertainty"
+type: software
+authors:
+  - family-names: Seaman
+    given-names: Iris
+repository-code: "https://github.com/mirisr/crystal-shell-graphs-uncertainty"
+url: "https://irisseaman.com/2026/10/10/crystal-shell-graphs-breast-mri-forecasting-uncertainty/"
+version: 0.1.0
+date-released: 2026-10-10
+license: LicenseRef-Proprietary
+keywords:
+  - breast MRI
+  - graph neural networks
+  - conformal prediction
+  - uncertainty quantification
+  - longitudinal forecasting

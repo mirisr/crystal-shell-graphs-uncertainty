@@ -1,0 +1,2 @@
+split,feature_mode,method,n,mae_ml,rmse_ml,bias_ml,coverage,width_ml,interval_score,q,df
+acrin_holdout,paper_full,extra_trees_scaled_residual_conformal,202.0,3.3229625926747537,5.635515398098309,0.8543226922894787,0.9306930693069307,19.00894558351193,22.21585220337953,2.0708897917281432,

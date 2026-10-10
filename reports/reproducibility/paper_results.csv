@@ -1,0 +1,14 @@
+section,model_or_method,cohort,n,metric,value,unit,notes
+forecast,image_embedding_crystal_shell_graph,ACRIN-6698 held-out,202,deterministic_FTV_MAE,3.08,mL,Presurgery T3
+forecast,image_embedding_crystal_shell_graph,ACRIN-6698 held-out,202,Chamfer_distance,3.40,mm,Predicted versus observed enhancing point clouds
+forecast,image_embedding_crystal_shell_graph,ACRIN-6698 held-out,202,sliced_Wasserstein_distance,1.17,mm,Predicted versus observed enhancing point clouds
+forecast,image_embedding_crystal_shell_graph,ACRIN-6698 held-out,202,active_subregion_count_MAE,2.24,count,Presurgery active regions
+ablation,image_embedding_no_message_passing,ACRIN-6698 held-out,202,active_subregion_count_MAE,14.13,count,Matched no-message control
+uncertainty,bucket_residual_MC,ACRIN-6698 held-out,202,coverage_90,0.921,proportion,Primary Monte Carlo interval
+uncertainty,bucket_residual_MC,ACRIN-6698 held-out,202,mean_width_90,17.30,mL,Primary Monte Carlo interval
+uncertainty,bucket_residual_MC,ACRIN-6698 held-out,202,interval_score_90,28.24,score,Lower is better
+uncertainty,locally_scaled_conformal,ACRIN-6698 held-out,202,coverage_90,0.936,proportion,Winner selected on I-SPY2 out-of-fold data
+uncertainty,locally_scaled_conformal,ACRIN-6698 held-out,202,mean_width_90,19.04,mL,Winner selected on I-SPY2 out-of-fold data
+uncertainty,locally_scaled_conformal,ACRIN-6698 held-out,202,interval_score_90,22.23,score,Winner selected on I-SPY2 out-of-fold data
+pCR,clinical_graph_temporal_model_stack,ACRIN-6698 held-out,202,AUC,0.807,AUC,Uses observed early-treatment and inter-regimen features
+pCR,clinical_graph_temporal,ACRIN-6698 held-out,202,AUC,0.826,AUC,Simpler comparator

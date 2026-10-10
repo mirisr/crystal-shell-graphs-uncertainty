@@ -1,0 +1,51 @@
+{
+  "model_tag": "resnet_crystal_edgegate_rd_k8",
+  "input": {
+    "core_channels": 6,
+    "image_embedding": "torchvision_resnet18_imagenet1k_v1",
+    "image_embedding_frozen": true,
+    "ssl_adapter_dim": 16,
+    "ssl_adapter_dropout": 0.1
+  },
+  "graph": {
+    "edge_mode": "crystal_shell_union",
+    "edge_attr_mode": "ssl_radial_bio",
+    "convolution": "relational",
+    "k_candidates_per_relation": 8,
+    "hidden_dim": 64,
+    "layers": 2,
+    "edge_attr_dropout": 0.1
+  },
+  "training": {
+    "folds": 5,
+    "epochs": 170,
+    "patience": 45,
+    "learning_rate": 0.00005,
+    "scheduled_sampling": true,
+    "scheduled_sampling_max_probability": 0.5,
+    "scheduled_sampling_warmup_epochs": 8,
+    "scheduled_sampling_anneal_epochs": 60,
+    "random_start_visit": true,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0001
+  },
+  "loss": {
+    "horizon": 0.75,
+    "ftv": 0.35,
+    "alive_mass": 0.01,
+    "alive_bce": 0.01,
+    "terminal_ftv": 0.125,
+    "edge_response": 0.15,
+    "edge_alive": 0.05,
+    "reaction_diffusion_residual": 0.02
+  },
+  "uncertainty": {
+    "monte_carlo_samples": 256,
+    "interval": 0.9,
+    "selection_split": "ispy2_out_of_fold",
+    "selection_metric": "interval_score",
+    "coverage_tolerance": 0.02,
+    "selected_method": "extra_trees_scaled_residual_conformal",
+    "seed": 42
+  }
+}

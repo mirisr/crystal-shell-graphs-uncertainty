@@ -1,0 +1,13 @@
+{
+  "root": "reports/acrin_paper_model_uq/mc",
+  "model_tag": "resnet_crystal_edgegate_rd_k8",
+  "samplers_found": [
+    "alive_mass_stratified",
+    "baseline_ftv_stratified",
+    "bucket_baseline",
+    "hybrid_backoff",
+    "predicted_ftv_stratified"
+  ],
+  "summary_rows": 30,
+  "primary_bucket": "T0_to_T3"
+}

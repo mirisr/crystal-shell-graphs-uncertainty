@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crystal-shell-graph-uncertainty"
+version = "0.1.0"
+description = "Crystal-shell tumor graph forecasting with patient-conditioned uncertainty"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+authors = [{name = "Iris Seaman"}]
+license = {file = "LICENSE"}
+dependencies = [
+  "torch==2.5.1",
+  "torch-geometric==2.6.1",
+  "numpy==1.26.4",
+  "scipy==1.15.3",
+]
+
+[project.optional-dependencies]
+analysis = [
+  "pandas==2.2.3",
+  "scikit-learn==1.8.0",
+  "matplotlib==3.10.8",
+  "pyarrow==24.0.0",
+  "openpyxl==3.1.5",
+]
+imaging = [
+  "torchvision==0.20.1",
+  "pydicom==3.0.2",
+  "scikit-image==0.26.0",
+]
+test = ["pytest==9.0.3"]
+
+[tool.setuptools.packages.find]
+include = ["lsgc*"]
+
+[tool.pytest.ini_options]
+testpaths = [
+  "lsgc/tests/test_edge_modes.py",
+  "lsgc/tests/test_forecaster.py",
+  "lsgc/tests/test_image_to_graph.py",
+  "datasets/ispy2/scripts/tests",
+  "experiments/consistent_rollout/tests",
+]
+addopts = "-ra"
