@@ -81,18 +81,21 @@ The locally scaled conformal method improved empirical coverage and interval sco
 
 The frozen tables, method ranking, topology controls, paired comparisons, deterministic summary, and pCR summaries are in [`reports/reproducibility/nca`](reports/reproducibility/nca).
 
-## Relationship to the earlier public graph repository
+## Relationship to the IEEE Access work
 
-This repository has an independent Git history and remote. It is separate from [`mirisr/breast-dce-mri-graph-rollouts`](https://github.com/mirisr/breast-dce-mri-graph-rollouts).
+This study builds directly on the endpoint-calibrated graph-rollout framework developed for the IEEE Access manuscript and released in [`mirisr/breast-dce-mri-graph-rollouts`](https://github.com/mirisr/breast-dce-mri-graph-rollouts). The earlier work established the persistent tumor-supervoxel representation, longitudinal graph rollout, graph-derived FTV forecasting, endpoint calibration, and residual Monte Carlo evaluation that form the foundation of the present study.
 
-| Earlier graph-rollout repository | This NCA repository |
+The NCA work extends that foundation by incorporating frozen ResNet-18 image embeddings at each tumor node, crystal-shell relational edge-gated message passing, explicit regional tumor-state evaluation, and patient-conditioned conformal intervals selected on I-SPY2 out-of-fold results. It also evaluates whether the resulting graph and longitudinal features support a secondary pCR analysis.
+
+| IEEE Access foundation | Extension in this NCA study |
 | --- | --- |
-| Endpoint-calibrated Hybrid-Edge rollout model | Frozen image embeddings with crystal-shell edge-gated relations |
-| Earlier graph-native FTV study | Joint regional state, FTV, patient-conditioned uncertainty, and secondary pCR analysis |
-| Earlier model family and checkpoints | Final `resnet_crystal_edgegate_rd_k8` model and five NCA checkpoints |
-| Separate public history | Independent NCA release history |
+| Persistent registered tumor-supervoxel graphs | Frozen image embeddings added to each persistent node |
+| Endpoint-calibrated Hybrid-Edge rollout model | Crystal-shell relational edge-gated graph forecaster |
+| Graph-derived scalar FTV forecasting | Joint regional tumor-state and FTV forecasting |
+| Residual Monte Carlo evaluation | Patient-conditioned conformal interval selection and held-out evaluation |
+| Earlier model family and configuration | Final `resnet_crystal_edgegate_rd_k8` model with five released checkpoints |
 
-Weights or results from the earlier repository should not be substituted for the checkpoints released here.
+The two repositories have independent Git histories so that each manuscript retains a clear implementation and artifact record. Weights or results from the IEEE Access repository should not be substituted for the checkpoints released here.
 
 ## Repository layout
 
