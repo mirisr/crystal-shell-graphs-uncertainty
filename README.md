@@ -1,8 +1,8 @@
 # Crystal-Shell Tumor Graph Forecasting with Patient-Conditioned Uncertainty
 
-This repository is the focused code and artifact release for the Neural Computing and Applications manuscript, **“Tumor-Graph Deep Learning of Pretreatment DCE-MRI for Forecasting Regional Response, Functional Tumor Volume, and Patient-Conditioned Uncertainty in Breast Cancer.”** It contains the final selected model, the five trained fold checkpoints, the patient-level fold assignment, the uncertainty-selection artifacts, aggregate manuscript results, and the source needed to rebuild the reported pipeline.
+This repository is the dedicated code and artifact release for the Neural Computing and Applications manuscript, **“Tumor-Graph Deep Learning of Pretreatment DCE-MRI for Forecasting Regional Response, Functional Tumor Volume, and Patient-Conditioned Uncertainty in Breast Cancer.”** It contains the final selected model, the five trained fold checkpoints, the patient-level fold assignment, the uncertainty-selection records, aggregate manuscript results, and the source needed to rebuild the reported pipeline.
 
-The release contains only the final NCA implementation. Exploratory model families, obsolete launchers, intermediate patient-level predictions, raw imaging, generated manuscript files, and historical experiment archives are excluded.
+The public `v0.1.0` release preserves the implementation and checkpoints used for the submitted manuscript. The reviewer revision is being developed separately. Reviewer-requested inferential comparisons will enter a later version only after their patient-level inputs and numerical provenance are frozen. Exploratory model families, obsolete launchers, intermediate patient-level predictions, raw imaging, generated manuscript files, reviewer correspondence, and historical experiment archives are excluded.
 
 ![Crystal-shell tumor graph forecasting and uncertainty pipeline](docs/assets/crystal-shell-forecasting-overview.png)
 
@@ -12,11 +12,23 @@ The release contains only the final NCA implementation. Exploratory model famili
 
 A scalar tumor-volume forecast can be numerically close while hiding the regional pattern that produced it. This study asks whether one pretreatment dynamic contrast-enhanced MRI examination can support three linked outputs:
 
-1. a spatially resolved presurgery enhancing-tumor state;
-2. a scalar presurgery functional tumor volume forecast;
+1. a spatially resolved presurgery enhancing-tumor state.
+2. a scalar presurgery functional tumor volume forecast.
 3. a patient-specific 90% prediction interval selected without access to the held-out scoring cohort.
 
-Persistent registered tumor regions form the graph nodes. Each node contains structured tumor descriptors and a frozen ImageNet-pretrained ResNet-18 embedding of local percent-enhancement, signal-enhancement-ratio, and support-map patches. A crystal-shell relation defines typed within-shell, radial, feature-similarity, and temporal candidates. Learned edge gates control the contribution of each message. The predicted graph state supports regional evaluation, the FTV readout, the uncertainty layer, and a secondary pCR analysis.
+Persistent registered tumor regions form the graph nodes. Each node contains structured tumor descriptors and a frozen ImageNet-pretrained ResNet-18 embedding of local percent-enhancement and signal-enhancement-ratio patches. A crystal-shell relation defines typed within-shell, radial, feature-similarity, and temporal candidates. Learned edge gates control the contribution of each message. The predicted graph state supports regional evaluation, the FTV readout, and the uncertainty layer.
+
+The pathologic complete response analysis is secondary to the pretreatment forecasting task. It combines baseline clinical covariates, observed graph-temporal summaries through the inter-regimen visit, and graph-derived model scores. It is not a pretreatment-only pCR classifier.
+
+## Scientific contribution
+
+The model connects three forms of evidence that are usually reported separately:
+
+1. **Regional response:** The graph rollout predicts which tumor subregions remain enhancing at presurgery.
+2. **Scalar response:** The same predicted graph state produces a presurgery functional tumor volume forecast.
+3. **Patient-specific reliability:** A train-only-selected conformal procedure attaches a 90% prediction interval to the FTV forecast before held-out scoring.
+
+The ablation study separates the roles of image content and graph structure. Frozen image embeddings provide most of the scalar FTV improvement. Crystal-shell message passing reduces active-subregion count error from 14.13 to 2.24 while preserving FTV accuracy. The uncertainty-selection protocol uses I-SPY2 out-of-fold results and does not use ACRIN-6698 to choose the reported method.
 
 ## Final NCA model
 
@@ -35,7 +47,7 @@ The released model tag is `resnet_crystal_edgegate_rd_k8`. Its final configurati
 | Primary uncertainty | 256-sample residual Monte Carlo with leave-target-out conformal calibration |
 | Frozen refinement | Locally scaled conformal intervals selected on I-SPY2 out-of-fold interval score |
 
-The five final checkpoints are in [`models/checkpoints`](models/checkpoints), and their SHA-256 hashes are in [`models/checksums.sha256`](models/checksums.sha256). Each checkpoint is approximately 434 KB and contains the state dictionary, normalization statistics, training configuration, selected epoch, and validation metrics.
+The five final checkpoints are in [`models/checkpoints`](models/checkpoints), and their SHA-256 hashes are in [`models/checksums.sha256`](models/checksums.sha256). Each checkpoint is approximately 434 KB and contains the state dictionary, normalization statistics, training configuration, selected epoch, and validation metrics. All five hashes match the final Cradle run tree for `resnet_crystal_edgegate_rd_k8`.
 
 ## Study design and evidence boundary
 
@@ -45,7 +57,7 @@ The released [`splits/ispy2_folds.parquet`](splits/ispy2_folds.parquet) contains
 
 ## Reported aggregate results
 
-The following values are transcribed from the final NCA manuscript and retained aggregate artifacts. They are reference values, rather than the result of a new run from this checkout.
+The following values are the reference values reported in the submitted NCA manuscript. They describe the held-out ACRIN-6698 analysis and are not the result of a new run from this checkout.
 
 | Endpoint | Held-out result |
 | --- | ---: |
@@ -63,7 +75,9 @@ The following values are transcribed from the final NCA manuscript and retained 
 | Internally selected pCR model-stack AUC | 0.807 |
 | Reduced clinical plus graph-temporal pCR AUC | 0.826 |
 
-The locally scaled conformal method improved coverage and interval score while increasing mean interval width. The pCR analysis includes observed early-treatment and inter-regimen features, so it is not a pretreatment-only classification result.
+The locally scaled conformal method improved empirical coverage and interval score while increasing mean interval width. The pCR analysis includes observed early-treatment and inter-regimen features, so it is not a pretreatment-only classification result.
+
+**Numerical provenance note:** The submitted manuscript reports locally scaled conformal coverage of 0.936, or 189 of 202 patients, with mean width 19.04 mL and interval score 22.23. The aggregate verification file included in public release `v0.1.0` records 0.931, or 188 of 202 patients, with mean width 19.01 mL and interval score 22.22. The selected method, held-out cohort, point forecast, and scientific interpretation are unchanged. The revision workflow is preserving both records until one canonical freeze is established and documented for `v0.2.0`.
 
 The frozen tables, method ranking, topology controls, paired comparisons, deterministic summary, and pCR summaries are in [`reports/reproducibility/nca`](reports/reproducibility/nca).
 
@@ -119,6 +133,17 @@ For Cradle or another compatible SLURM cluster:
 bash environment/setup_cradle.sh
 source environment/paths.sh
 ```
+
+## Reproducibility levels
+
+The repository supports two levels of verification:
+
+| Level | What can be checked |
+| --- | --- |
+| Data-free artifact verification | Checkpoint hashes, configuration loading, architecture reconstruction, synthetic T0-to-T3 rollout, unit tests, and release-boundary audit |
+| Full numerical reproduction | Data preparation, graph construction, five-fold training, deterministic held-out evaluation, Monte Carlo sampling, conformal selection, and pCR analysis using the source collections and private derived tensors |
+
+The first level runs directly from this repository. The second requires the TCIA source collections and derived imaging artifacts that cannot be redistributed here.
 
 ## Verify the released artifacts
 
